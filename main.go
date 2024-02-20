@@ -9,6 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/sevlyar/go-daemon"
 )
 
 const defaultPort = ":80"
@@ -31,6 +32,32 @@ func init() {
 }
 
 func main() {
+	cntxt := &daemon.Context{
+		PidFileName: "vn_proxy.pid",
+		PidFilePerm: 0644,
+		LogFileName: "vn_proxy.log",
+		LogFilePerm: 0640,
+		WorkDir:     "./",
+		Umask:       027,
+		Args:        []string{"[go-daemon vn_proxy]"},
+	}
+
+	d, err := cntxt.Reborn()
+	if err != nil {
+		log.Fatal("Unable to run: ", err)
+	}
+	if d != nil {
+		return
+	}
+	defer cntxt.Release()
+
+	log.Print("- - - - - - - - - - - - - - -")
+	log.Print("daemon started")
+
+	ginMain()
+}
+
+func ginMain() {
 	r := gin.Default()
 
 	// r.GET("/test", func(ctx *gin.Context) {
