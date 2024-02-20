@@ -1,6 +1,6 @@
 module github.com/alai04/vn_proxy
 
-go 1.18.0
+go 1.18
 
 require (
 	github.com/gin-gonic/gin v1.9.1
