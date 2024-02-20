@@ -1,0 +1,14 @@
+@host = http://192.168.1.47
+@port = 8080
+
+
+### /test
+GET {{host}}:{{port}}/test
+
+
+### origin config
+GET {{host}}:{{port}}/ori-raw/tuan-viet-nam
+
+
+### replaced config
+GET {{host}}:{{port}}/tuan-viet-nam
