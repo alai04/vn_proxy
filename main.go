@@ -47,10 +47,10 @@ func main() {
 				ctx.String(http.StatusInternalServerError, "get url error")
 				return
 			}
-			ctx.String(http.StatusOK, string(oriString))
+			ctx.Data(http.StatusOK, "text/html; chartset=utf-8", oriString)
 		}
 
-		ctx.String(http.StatusOK, "Uri: %s", uri)
+		// ctx.String(http.StatusOK, "Uri: %s", uri)
 		oriString, err := getOrigin(vn_host + uri)
 		if err != nil {
 			ctx.String(http.StatusInternalServerError, "get url error")
@@ -60,7 +60,7 @@ func main() {
 		replacer := strings.NewReplacer(
 			"translate=\"no\"", "",
 		)
-		ctx.String(http.StatusOK, replacer.Replace(string(oriString)))
+		ctx.Data(http.StatusOK, "text/html; chartset=utf-8", []byte(replacer.Replace(string(oriString))))
 	})
 
 	r.Run(port)
